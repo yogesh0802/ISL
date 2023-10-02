@@ -3,22 +3,21 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
 import hand_detection as hd
+# import joblib
+
+# # SVM model
+# # Load the trained SVM classifier model from the file
+# svm_model = joblib.load('svm_classifier_model.pkl')
+
 
 # load model
 model = load_model('Mymodel.keras')
-# model = load_model('CNN.h5')
-
-
-# class_names = ["A", "B", "C", "D", "E", "F",
-#                "G", "H", "I", "J", "K", "L",
-#                "M", "N", "O", "P", "Q", "R",
-#                "S", "T", "U", "V", "W", "X",
-#                "Y", "Z", "del", "nothing", "space"] 
 class_names = ["A", "B", "C", "D", "E", "F",
                "G", "H", "I", "J", "K", "L",
                "M", "N", "O", "P", "Q", "R",
                "S", "T", "U", "V", "W", "X",
                "Y", "Z"] 
+
 cap = cv2.VideoCapture(0)
 detector = hd.handDetector()
 samples_to_predict = []
@@ -46,10 +45,6 @@ while True:
     (endX, endY) = 350, 350
     rec = cv2.rectangle(img, (startX, startY), (endX, endY), 255, 4)
 
-    # mask = np.zeros(img.shape[:2], dtype="uint8")
-    # Draw the desired region to crop out in white
-    # rec = cv2.rectangle(mask, (startX, startY), (endX, endY), (255), -1)
-    # masked = cv2.bitwise_and(img, img, mask=mask)
 
     cropped_video = img[50:300, 50:300]
     if len(landmark_list) != 0:
@@ -86,3 +81,7 @@ while True:
     # cv2.imwrite("face-" + ".jpg", cropped_video)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+#     SVM MODEL
+#     (previous code)
+
